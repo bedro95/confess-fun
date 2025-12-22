@@ -182,7 +182,7 @@
       const input = document.getElementById('walletAddress').value.trim();
       const btn = document.getElementById('confessBtn');
 
-      if (input.length === 44) {
+      if (input.length > 20) {
         btn.disabled = false;
         btn.style.opacity = "1";
       } else {
