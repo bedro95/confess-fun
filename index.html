@@ -1,49 +1,107 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Confess.sol - تحليل الخسائر</title>
+  <title>Confess.sol - Wallet Loss Analysis</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      direction: rtl;
-      padding: 20px;
-      background: #f4f4f4;
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
     }
-    input, button {
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212; /* خلفية سوداء داكنة */
+      color: #FFFFFF; /* نص أبيض */
+      direction: rtl;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #1E1E1E; /* خلفية أغمق للصندوق */
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 35px;
+      font-weight: 700;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #333333;
+      color: #FFFFFF;
       font-size: 16px;
+      letter-spacing: 1px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      outline: none;
+    }
+    input[type="text"]::placeholder {
+      color: #AAAAAA;
+      font-style: italic;
+    }
+    input[type="text"]:focus {
+      background-color: #444444;
+      box-shadow: 0 0 8px #007bff;
+      color: #fff;
     }
     button {
-      cursor: pointer;
-      margin-left: 10px;
-      padding: 8px 12px;
+      margin-top: 20px;
+      width: 100%;
+      padding: 15px 0;
       background-color: #007bff;
-      color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 1.2px;
+      transition: background-color 0.3s ease;
+      text-transform: uppercase;
+      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
     }
     button:hover {
       background-color: #0056b3;
+      box-shadow: 0 6px 14px rgba(0, 86, 179, 0.7);
     }
     #result {
-      margin-top: 15px;
-      font-weight: bold;
+      margin-top: 28px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      min-height: 40px;
+      color: #f0f0f0;
+      letter-spacing: 0.8px;
     }
   </style>
 </head>
 <body>
-  <h1>موقع Confess.sol</h1>
-
-  <!-- هنا محتوى موقعك السابق -->
-
-  <!-- إضافة خانة إدخال عنوان المحفظة وزر التحليل -->
-  <div style="margin:20px 0;">
-    <input type="text" id="walletAddress" placeholder="أدخل عنوان محفظتك هنا" style="width:300px; padding:8px;">
-    <button onclick="analyzeWallet()">تحليل الخسائر</button>
+  <div class="container">
+    <h1>Confess.sol</h1>
+    <input
+      type="text"
+      id="walletAddress"
+      placeholder="Enter your wallet address"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button onclick="analyzeWallet()">Analyze Losses</button>
+    <div id="result"></div>
   </div>
-
-  <div id="result"></div>
 
   <script>
     async function analyzeWallet() {
@@ -51,26 +109,24 @@
       const resultDiv = document.getElementById('result');
 
       if (!wallet) {
-        resultDiv.textContent = 'يرجى إدخال عنوان المحفظة.';
+        resultDiv.textContent = 'Please enter a wallet address.';
         return;
       }
 
-      resultDiv.textContent = 'جارٍ التحليل... الرجاء الانتظار.';
+      resultDiv.textContent = 'Analyzing... Please wait.';
 
       try {
-        // 1. جلب التوكنات في المحفظة عبر API سول سكان (مثال)
         const tokensResponse = await fetch(`https://public-api.solscan.io/account/tokens?account=${wallet}`);
         const tokensData = await tokensResponse.json();
 
         if (!tokensData || tokensData.length === 0) {
-          resultDiv.textContent = 'لم يتم العثور على عملات في المحفظة.';
+          resultDiv.textContent = 'No tokens found in the wallet.';
           return;
         }
 
         let largestLoss = 0;
         let largestLossToken = null;
 
-        // 2. نحلل كل عملة لجلب بيانات السعر من Dexscreener
         for (const token of tokensData) {
           const symbol = token.tokenSymbol;
           const dexScreenerApi = `https://api.dexscreener.io/latest/dex/tokens/${token.tokenAddress}`;
@@ -81,7 +137,6 @@
 
             if (!priceData.pairs || priceData.pairs.length === 0) continue;
 
-            // ناخذ أعلى وأدنى سعر خلال 7 أيام من أول زوج تداول (تقدير تقريبي)
             const stats = priceData.pairs[0].stats;
             if (!stats) continue;
 
@@ -95,19 +150,18 @@
                 largestLossToken = symbol;
               }
             }
-          } catch (e) {
-            // لو فشلنا جلب بيانات سعر العملة نكمل
+          } catch {
             continue;
           }
         }
 
         if (largestLossToken) {
-          resultDiv.textContent = `أكبر خسارة في المحفظة كانت في العملة ${largestLossToken} بقيمة تقريبية ${largestLoss.toFixed(4)} دولار`;
+          resultDiv.textContent = `The largest loss was in ${largestLossToken} with an approximate value of $${largestLoss.toFixed(4)}`;
         } else {
-          resultDiv.textContent = 'لم نتمكن من حساب أكبر خسارة بسبب نقص البيانات.';
+          resultDiv.textContent = 'Could not calculate largest loss due to insufficient data.';
         }
       } catch (error) {
-        resultDiv.textContent = 'حدث خطأ أثناء التحليل، يرجى المحاولة لاحقًا.';
+        resultDiv.textContent = 'An error occurred during analysis. Please try again later.';
         console.error(error);
       }
     }
