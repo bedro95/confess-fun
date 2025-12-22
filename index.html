@@ -160,14 +160,15 @@
       resultDiv.textContent = 'Analyzing... Please wait.';
 
       try {
-        const tokensResponse = await fetch(`https://public-api.solscan.io/account/tokens?account=${wallet}`);
+        // جلب التوكنات من orb.fi API
+        const tokensResponse = await fetch(`https://api.orb.fi/v0/tokens?wallet=${wallet}&chain=solana`);
         if (!tokensResponse.ok) {
-          console.error('Failed to fetch tokens:', tokensResponse.status, tokensResponse.statusText);
-          throw new Error('Failed to fetch tokens');
+          console.error('Failed to fetch tokens from Orb:', tokensResponse.status, tokensResponse.statusText);
+          throw new Error('Failed to fetch tokens from Orb');
         }
         const tokensData = await tokensResponse.json();
 
-        if (!tokensData || tokensData.length === 0) {
+        if (!tokensData || !tokensData.tokens || tokensData.tokens.length === 0) {
           resultDiv.textContent = 'No tokens found in the wallet.';
           return;
         }
@@ -175,9 +176,12 @@
         let largestLoss = 0;
         let largestLossToken = null;
 
-        for (const token of tokensData) {
-          const symbol = token.tokenSymbol;
-          const dexScreenerApi = `https://api.dexscreener.io/latest/dex/tokens/${token.tokenAddress}`;
+        for (const token of tokensData.tokens) {
+          const symbol = token.symbol || token.tokenSymbol || 'Unknown';
+          const tokenAddress = token.address || token.tokenAddress;
+          if (!tokenAddress) continue;
+
+          const dexScreenerApi = `https://api.dexscreener.io/latest/dex/tokens/${tokenAddress}`;
 
           try {
             const priceResponse = await fetch(dexScreenerApi);
