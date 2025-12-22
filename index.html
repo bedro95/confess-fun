@@ -93,18 +93,19 @@
     #result {
       margin-top: 35px;
       font-weight: 700;
-      font-size: 1.25rem;
+      font-size: 1.6rem;
       color: #FFD700;
-      letter-spacing: 0.9px;
+      letter-spacing: 1.1px;
       user-select: text;
       white-space: pre-wrap;
-      text-shadow: 0 0 5px #FFD700;
-    }
-    #result img {
-      margin-top: 20px;
-      max-width: 100%;
+      text-shadow: 0 0 8px #FFD700;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
       border-radius: 12px;
-      box-shadow: 0 0 10px #FFD700;
+      background: rgba(255, 215, 0, 0.1);
     }
     footer {
       margin-top: 30px;
@@ -155,19 +156,6 @@
       "Your biggest loss is the stuff of legends… unfortunately."
     ];
 
-    const funnyImages = [
-      "https://i.imgur.com/9YFQqIX.jpg",  // funny cartoon money flying away
-      "https://i.imgur.com/eOvgKwM.png",  // sad crypto face
-      "https://i.imgur.com/TkcZ4kR.png",  // funny shocked face
-      "https://i.imgur.com/WcTvKHW.png",  // crying cartoon
-      "https://i.imgur.com/F2pQk8C.png",  // gold coin falling
-      "https://i.imgur.com/KP2dfB2.png",  // funny disappointed emoji
-      "https://i.imgur.com/rJx84l9.png",  // shrug emoji
-      "https://i.imgur.com/DPjiTnx.png",  // funny cartoon character
-      "https://i.imgur.com/mLn5yzT.png",  // money flying away
-      "https://i.imgur.com/xBBo5Zv.png"   // cartoon wallet crying
-    ];
-
     function showFunnyResult() {
       const wallet = document.getElementById('walletAddress').value.trim();
       const resultDiv = document.getElementById('result');
@@ -177,16 +165,11 @@
         return;
       }
 
-      // اختيار جملة وصورة عشوائية
+      // اختيار جملة عشوائية
       const phrase = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-      const image = funnyImages[Math.floor(Math.random() * funnyImages.length)];
 
-      // عرض الجملة والصورة
-      resultDiv.innerHTML = `
-        ${phrase}
-        <br/>
-        <img src="${image}" alt="Funny image" />
-      `;
+      // عرض الجملة فقط بدون صورة
+      resultDiv.textContent = phrase;
     }
   </script>
 </body>
