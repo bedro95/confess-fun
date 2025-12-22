@@ -111,6 +111,22 @@
       border-radius: 12px;
       background: rgba(255, 215, 0, 0.1);
     }
+    #copyBtn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      background: #FFD700;
+      color: #000;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+    #copyBtn:hover {
+      background: #FFC107;
+    }
     footer {
       margin-top: 30px;
       color: #BFAF2E;
@@ -140,6 +156,7 @@
     />
     <button id="confessBtn" onclick="showFunnyResult()" disabled>confess</button>
     <div id="result"></div>
+    <button id="copyBtn" onclick="copyResult()">Copy &amp; Flex Your Losses</button>
   </div>
 
   <footer>
@@ -165,7 +182,6 @@
       const input = document.getElementById('walletAddress').value.trim();
       const btn = document.getElementById('confessBtn');
 
-      // طول محفظة سولانا عادة 44 حرف
       if (input.length === 44) {
         btn.disabled = false;
         btn.style.opacity = "1";
@@ -176,16 +192,23 @@
     }
 
     function showFunnyResult() {
-      const wallet = document.getElementById('walletAddress').value.trim();
       const resultDiv = document.getElementById('result');
+      const phrase = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
+      resultDiv.textContent = phrase;
+    }
 
-      if (!wallet) {
-        resultDiv.textContent = 'Please enter a wallet address.';
+    function copyResult() {
+      const resultText = document.getElementById('result').textContent;
+      if (!resultText) {
+        alert('No result to copy');
         return;
       }
 
-      const phrase = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-      resultDiv.textContent = phrase;
+      navigator.clipboard.writeText(resultText).then(() => {
+        alert('Result copied!');
+      }, () => {
+        alert('Copy failed, please try manually');
+      });
     }
   </script>
 </body>
