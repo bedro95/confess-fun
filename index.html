@@ -18,9 +18,10 @@
       color: #FFD700; /* أصفر ذهبي */
       direction: rtl;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       text-align: center;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -109,6 +110,22 @@
       white-space: pre-wrap;
       text-shadow: 0 0 5px #FFD700;
     }
+
+    footer {
+      margin-top: 30px;
+      color: #BFAF2E;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      user-select: none;
+      text-align: center;
+      text-shadow: 0 0 3px #BFAF2E;
+    }
+
+    footer span {
+      display: block;
+      margin: 4px 0;
+    }
   </style>
 </head>
 <body>
@@ -125,6 +142,11 @@
     <div id="result"></div>
   </div>
 
+  <footer>
+    <span>Version 2025</span>
+    <span>Powered by Solana</span>
+  </footer>
+
   <script>
     async function analyzeWallet() {
       const wallet = document.getElementById('walletAddress').value.trim();
@@ -138,9 +160,11 @@
       resultDiv.textContent = 'Analyzing... Please wait.';
 
       try {
-        // نجرب نجلب التوكنات
         const tokensResponse = await fetch(`https://public-api.solscan.io/account/tokens?account=${wallet}`);
-        if (!tokensResponse.ok) throw new Error('Failed to fetch tokens');
+        if (!tokensResponse.ok) {
+          console.error('Failed to fetch tokens:', tokensResponse.status, tokensResponse.statusText);
+          throw new Error('Failed to fetch tokens');
+        }
         const tokensData = await tokensResponse.json();
 
         if (!tokensData || tokensData.length === 0) {
@@ -151,20 +175,28 @@
         let largestLoss = 0;
         let largestLossToken = null;
 
-        // تحليل كل عملة
         for (const token of tokensData) {
           const symbol = token.tokenSymbol;
           const dexScreenerApi = `https://api.dexscreener.io/latest/dex/tokens/${token.tokenAddress}`;
 
           try {
             const priceResponse = await fetch(dexScreenerApi);
-            if (!priceResponse.ok) continue;
+            if (!priceResponse.ok) {
+              console.error(`Failed fetching price for ${symbol}:`, priceResponse.status);
+              continue;
+            }
             const priceData = await priceResponse.json();
 
-            if (!priceData.pairs || priceData.pairs.length === 0) continue;
+            if (!priceData.pairs || priceData.pairs.length === 0) {
+              console.warn(`No price pairs for ${symbol}`);
+              continue;
+            }
 
             const stats = priceData.pairs[0].stats;
-            if (!stats) continue;
+            if (!stats) {
+              console.warn(`No stats data for ${symbol}`);
+              continue;
+            }
 
             const high = parseFloat(stats.high ?? 0);
             const low = parseFloat(stats.low ?? 0);
@@ -176,7 +208,8 @@
                 largestLossToken = symbol;
               }
             }
-          } catch {
+          } catch (e) {
+            console.error(`Error fetching price data for ${symbol}:`, e);
             continue;
           }
         }
@@ -187,8 +220,8 @@
           resultDiv.textContent = 'Could not calculate largest loss due to insufficient data.';
         }
       } catch (error) {
+        console.error('Error during wallet analysis:', error);
         resultDiv.textContent = 'An error occurred during analysis. Please check the wallet address and try again.';
-        console.error(error);
       }
     }
   </script>
