@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CONFESS.SOL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .box {
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 14px;
+      font-size: 14px;
+      margin-bottom: 15px;
+      border: none;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #fff;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    .confession {
+      margin-top: 25px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+    .small {
+      margin-top: 20px;
+      font-size: 11px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h1>CONFESS.SOL</h1>
+
+    <p>PASTE ANY SOLANA WALLET<br>WE’LL DO THE CONFESSING</p>
+
+    <input type="text" placeholder="Solana wallet address" id="wallet" />
+
+    <button onclick="confess()">CONFESS</button>
+
+    <div class="confession" id="result"></div>
+
+    <div class="small">
+      NO WALLET CONNECT • NO SIGNATURE • PUBLIC SHAME
+    </div>
+  </div>
+
+  <script>
+    const confessions = [
+      "I BOUGHT THE TOP AND CALLED IT CONVICTION",
+      "I HELD A RUG HOPING FOR A MIRACLE",
+      "I SOLD TOO EARLY AND COPED WITH MEMES",
+      "THIS WALLET TRUSTED A DOG WITH A HAT",
+      "I THOUGHT IT WAS DIFFERENT THIS TIME",
+      "I APE’D WITHOUT THINKING",
+      "I IGNORED THE RED FLAGS",
+      "I BELIEVED TWITTER",
+      "I HELD TO ZERO FOR THE LORE",
+      "I LEARNED NOTHING AND I’LL DO IT AGAIN",
+      "EXIT LIQUIDITY WAS ME",
+      "PAIN WAS THE STRATEGY"
+    ];
+
+    function confess() {
+      const wallet = document.getElementById("wallet").value;
+      if (!wallet) return;
+      const random = confessions[Math.floor(Math.random() * confessions.length)];
+      document.getElementById("result").innerText = random + "\n\nCONFESS.SOL";
+    }
+  </script>
+
+</body>
+</html>
