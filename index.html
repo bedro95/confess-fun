@@ -1,100 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <title>CONFESS.SOL</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Confess.sol - تحليل الخسائر</title>
   <style>
     body {
-      background: #000;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .box {
-      text-align: center;
-      max-width: 420px;
-      width: 100%;
+      font-family: Arial, sans-serif;
+      direction: rtl;
       padding: 20px;
+      background: #f4f4f4;
     }
-    h1 {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-    input {
-      width: 100%;
-      padding: 14px;
-      font-size: 14px;
-      margin-bottom: 15px;
-      border: none;
-      outline: none;
+    input, button {
+      font-size: 16px;
     }
     button {
-      width: 100%;
-      padding: 14px;
-      background: #fff;
-      color: #000;
-      font-weight: bold;
-      border: none;
       cursor: pointer;
+      margin-left: 10px;
+      padding: 8px 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
     }
-    .confession {
-      margin-top: 25px;
-      font-size: 18px;
-      line-height: 1.4;
+    button:hover {
+      background-color: #0056b3;
     }
-    .small {
-      margin-top: 20px;
-      font-size: 11px;
-      opacity: 0.6;
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
+  <h1>موقع Confess.sol</h1>
 
-  <div class="box">
-    <h1>CONFESS.SOL</h1>
+  <!-- هنا محتوى موقعك السابق -->
 
-    <p>PASTE ANY SOLANA WALLET<br>WE’LL DO THE CONFESSING</p>
-
-    <input type="text" placeholder="Solana wallet address" id="wallet" />
-
-    <button onclick="confess()">CONFESS</button>
-
-    <div class="confession" id="result"></div>
-
-    <div class="small">
-      NO WALLET CONNECT • NO SIGNATURE • PUBLIC SHAME
-    </div>
+  <!-- إضافة خانة إدخال عنوان المحفظة وزر التحليل -->
+  <div style="margin:20px 0;">
+    <input type="text" id="walletAddress" placeholder="أدخل عنوان محفظتك هنا" style="width:300px; padding:8px;">
+    <button onclick="analyzeWallet()">تحليل الخسائر</button>
   </div>
 
-  <script>
-    const confessions = [
-      "I BOUGHT THE TOP AND CALLED IT CONVICTION",
-      "I HELD A RUG HOPING FOR A MIRACLE",
-      "I SOLD TOO EARLY AND COPED WITH MEMES",
-      "THIS WALLET TRUSTED A DOG WITH A HAT",
-      "I THOUGHT IT WAS DIFFERENT THIS TIME",
-      "I APE’D WITHOUT THINKING",
-      "I IGNORED THE RED FLAGS",
-      "I BELIEVED TWITTER",
-      "I HELD TO ZERO FOR THE LORE",
-      "I LEARNED NOTHING AND I’LL DO IT AGAIN",
-      "EXIT LIQUIDITY WAS ME",
-      "PAIN WAS THE STRATEGY"
-    ];
+  <div id="result"></div>
 
-    function confess() {
-      const wallet = document.getElementById("wallet").value;
-      if (!wallet) return;
-      const random = confessions[Math.floor(Math.random() * confessions.length)];
-      document.getElementById("result").innerText = random + "\n\nCONFESS.SOL";
+  <script>
+    async function analyzeWallet() {
+      const wallet = document.getElementById('walletAddress').value.trim();
+      const resultDiv = document.getElementById('result');
+
+      if (!wallet) {
+        resultDiv.textContent = 'يرجى إدخال عنوان المحفظة.';
+        return;
+      }
+
+      resultDiv.textContent = 'جارٍ التحليل... الرجاء الانتظار.';
+
+      try {
+        // 1. جلب التوكنات في المحفظة عبر API سول سكان (مثال)
+        const tokensResponse = await fetch(`https://public-api.solscan.io/account/tokens?account=${wallet}`);
+        const tokensData = await tokensResponse.json();
+
+        if (!tokensData || tokensData.length === 0) {
+          resultDiv.textContent = 'لم يتم العثور على عملات في المحفظة.';
+          return;
+        }
+
+        let largestLoss = 0;
+        let largestLossToken = null;
+
+        // 2. نحلل كل عملة لجلب بيانات السعر من Dexscreener
+        for (const token of tokensData) {
+          const symbol = token.tokenSymbol;
+          const dexScreenerApi = `https://api.dexscreener.io/latest/dex/tokens/${token.tokenAddress}`;
+
+          try {
+            const priceResponse = await fetch(dexScreenerApi);
+            const priceData = await priceResponse.json();
+
+            if (!priceData.pairs || priceData.pairs.length === 0) continue;
+
+            // ناخذ أعلى وأدنى سعر خلال 7 أيام من أول زوج تداول (تقدير تقريبي)
+            const stats = priceData.pairs[0].stats;
+            if (!stats) continue;
+
+            const high = parseFloat(stats.high ?? 0);
+            const low = parseFloat(stats.low ?? 0);
+
+            if (high && low) {
+              const loss = high - low;
+              if (loss > largestLoss) {
+                largestLoss = loss;
+                largestLossToken = symbol;
+              }
+            }
+          } catch (e) {
+            // لو فشلنا جلب بيانات سعر العملة نكمل
+            continue;
+          }
+        }
+
+        if (largestLossToken) {
+          resultDiv.textContent = `أكبر خسارة في المحفظة كانت في العملة ${largestLossToken} بقيمة تقريبية ${largestLoss.toFixed(4)} دولار`;
+        } else {
+          resultDiv.textContent = 'لم نتمكن من حساب أكبر خسارة بسبب نقص البيانات.';
+        }
+      } catch (error) {
+        resultDiv.textContent = 'حدث خطأ أثناء التحليل، يرجى المحاولة لاحقًا.';
+        console.error(error);
+      }
     }
   </script>
-
 </body>
 </html>
