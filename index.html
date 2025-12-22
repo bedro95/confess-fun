@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Confess.sol - Wallet Fun Results</title>
+  <title>Confess.fun - Wallet Fun Results</title>
   <style>
     * {
       box-sizing: border-box;
@@ -103,13 +103,14 @@
       user-select: text;
       white-space: pre-wrap;
       text-shadow: 0 0 8px #FFD700;
-      min-height: 70px;
+      min-height: 90px;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 0 10px;
       border-radius: 12px;
       background: rgba(255, 215, 0, 0.1);
+      flex-direction: column;
     }
     #copyBtn {
       margin-top: 10px;
@@ -145,7 +146,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Confess.sol</h1>
+    <h1>Confess.fun</h1>
     <input
       type="text"
       id="walletAddress"
@@ -194,7 +195,7 @@
     function showFunnyResult() {
       const resultDiv = document.getElementById('result');
       const phrase = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-      resultDiv.textContent = phrase;
+      resultDiv.textContent = phrase + "\n\nCheck out confess.fun for more fun wallet confessions!";
     }
 
     function copyResult() {
