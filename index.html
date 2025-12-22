@@ -85,10 +85,14 @@
       box-shadow: 0 6px 12px rgba(255, 215, 0, 0.6);
       transition: background 0.35s ease, box-shadow 0.35s ease;
       user-select: none;
+      opacity: 0.5;
     }
-    button:hover {
+    button:hover:enabled {
       background: linear-gradient(90deg, #FFC107 0%, #FFEB3B 100%);
       box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9);
+    }
+    button:disabled {
+      cursor: not-allowed;
     }
     #result {
       margin-top: 35px;
@@ -132,8 +136,9 @@
       placeholder="Enter your wallet address"
       autocomplete="off"
       spellcheck="false"
+      oninput="validateInput()"
     />
-    <button onclick="showFunnyResult()">confess</button>
+    <button id="confessBtn" onclick="showFunnyResult()" disabled>confess</button>
     <div id="result"></div>
   </div>
 
@@ -156,6 +161,20 @@
       "Your biggest loss is the stuff of legends… unfortunately."
     ];
 
+    function validateInput() {
+      const input = document.getElementById('walletAddress').value.trim();
+      const btn = document.getElementById('confessBtn');
+
+      // طول محفظة سولانا عادة 44 حرف
+      if (input.length === 44) {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+      } else {
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+      }
+    }
+
     function showFunnyResult() {
       const wallet = document.getElementById('walletAddress').value.trim();
       const resultDiv = document.getElementById('result');
@@ -165,10 +184,7 @@
         return;
       }
 
-      // اختيار جملة عشوائية
       const phrase = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-
-      // عرض الجملة فقط بدون صورة
       resultDiv.textContent = phrase;
     }
   </script>
