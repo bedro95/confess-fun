@@ -16,7 +16,7 @@
       direction: rtl;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
       min-height: 100vh;
       text-align: center;
@@ -251,7 +251,7 @@
       direction: ltr;
     }
 
-    /* الفقاعات الخاصة بالأسعار */
+    /* فقاعات أسعار العملات */
     #priceBubbles {
       margin-top: 45px;
       display: flex;
@@ -400,7 +400,7 @@
     <div id="result"></div>
     <button id="copyBtn" onclick="copyResult()" data-tooltip="Copy your funny confession!">📋 Copy &amp; Flex Your Losses</button>
 
-    <!-- أداة متابعة الأسعار بشكل فقاعات -->
+    <!-- فقاعات أسعار العملات -->
     <div id="priceBubbles" aria-label="Crypto Prices">
       <!-- الفقاعات تظهر هنا -->
     </div>
@@ -469,7 +469,7 @@
       });
     }
 
-    const coins = ['bitcoin', 'solana', 'ethereum'];
+    const coins = ['bitcoin', 'ethereum', 'solana'];
     const apiURL = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`;
 
     async function fetchPrices() {
@@ -499,3 +499,12 @@
         });
       } catch (error) {
         console.error('Failed to fetch prices:', error);
+      }
+    }
+
+    // تحديث الأسعار كل 60 ثانية
+    fetchPrices();
+    setInterval(fetchPrices, 60000);
+  </script>
+</body>
+</html>
