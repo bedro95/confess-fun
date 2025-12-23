@@ -159,14 +159,16 @@
       background: #FFC107;
       box-shadow: 0 9px 25px rgba(255, 215, 0, 1);
     }
+
+    /* زر زيارة X الآن أسفل الصفحة */
     #twitterBtn {
-      margin-top: 16px;
+      margin: 25px auto 0 auto;
       padding: 14px 0;
-      width: 100%;
+      width: 160px;
       background: #000000;
       border-radius: 18px;
       font-weight: 900;
-      font-size: 26px;
+      font-size: 24px;
       color: #FFD700;
       cursor: pointer;
       user-select: none;
@@ -176,21 +178,23 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       text-transform: uppercase;
-      letter-spacing: 1.6px;
+      letter-spacing: 1.5px;
       border: 2px solid #FFD700;
       position: relative;
+      z-index: 10;
     }
     #twitterBtn:hover {
       background: #222;
       box-shadow: 0 12px 30px rgba(255, 215, 0, 1);
     }
     #twitterBtn span {
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 900;
       line-height: 1;
     }
+
     footer {
       margin-top: 36px;
       color: #BFAF2E;
@@ -342,6 +346,8 @@
         padding: 12px 0;
         border-radius: 14px;
         letter-spacing: 1.2px;
+        width: 140px;
+        margin: 20px auto 0 auto;
       }
       #priceTracker {
         padding: 16px 12px;
@@ -382,9 +388,6 @@
     <button id="confessBtn" onclick="showFunnyResult()" disabled data-tooltip="Tell us your wallet confession!">💬 confess</button>
     <div id="result"></div>
     <button id="copyBtn" onclick="copyResult()" data-tooltip="Copy your funny confession!">📋 Copy &amp; Flex Your Losses</button>
-    <button id="twitterBtn" onclick="openTwitter()" aria-label="Go to X page" data-tooltip="Visit our X page">
-      <span>✕</span> Visit
-    </button>
 
     <!-- أداة متابعة الأسعار -->
     <div id="priceTracker">
@@ -408,6 +411,10 @@
     <span>Version 2025</span>
     <span>Powered by Solana</span>
   </footer>
+
+  <button id="twitterBtn" onclick="openTwitter()" aria-label="Go to X page" data-tooltip="Visit our X page">
+    <span>✕</span> Visit on X
+  </button>
 
   <div id="signature">Bader Alkorgli</div>
 
