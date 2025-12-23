@@ -24,6 +24,7 @@
       -moz-osx-font-smoothing: grayscale;
       padding: 20px;
       line-height: 1.5;
+      position: relative;
     }
     .container {
       background: #121212;
@@ -87,7 +88,6 @@
       box-shadow: 0 8px 18px rgba(255, 215, 0, 0.65);
       transition: background 0.4s ease, box-shadow 0.4s ease;
       user-select: none;
-      opacity: 0.5;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -183,10 +183,27 @@
       user-select: none;
       text-align: center;
       text-shadow: 0 0 4px #BFAF2E;
+      position: relative;
+      padding-bottom: 30px;
     }
     footer span {
       display: block;
       margin: 5px 0;
+    }
+    /* توقيع باسمك في أسفل الصفحة جهة اليمين */
+    #signature {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      font-size: 0.75rem;
+      color: rgba(255, 215, 0, 0.6);
+      font-weight: 600;
+      user-select: none;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      pointer-events: none;
+      letter-spacing: 0.8px;
+      z-index: 1000;
+      direction: ltr;
     }
 
     /* تصميم جدول أداة متابعة الأسعار */
@@ -313,6 +330,11 @@
       #priceTracker th, #priceTracker td {
         padding: 10px 8px;
       }
+      #signature {
+        font-size: 0.6rem;
+        bottom: 8px;
+        right: 10px;
+      }
     }
   </style>
 </head>
@@ -356,6 +378,8 @@
     <span>Version 2025</span>
     <span>Powered by Solana</span>
   </footer>
+
+  <div id="signature">Bader Alkorgli</div>
 
   <script>
     const funnyPhrases = [
