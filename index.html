@@ -44,7 +44,7 @@
     }
 
     .container {
-      background: #121212cc; /* خليتها شفافة شوي عشان تظهر الخلفية تحت */
+      background: #121212cc;
       padding: 45px 40px;
       border-radius: 20px;
       box-shadow:
@@ -233,8 +233,8 @@
       padding: 22px 18px;
       border-radius: 16px;
       box-shadow:
-        0 8px 25px rgba(255, 215, 0, 0.35),
-        inset 0 0 25px rgba(255, 215, 0, 0.18);
+        0 10px 35px rgba(255, 215, 0, 0.5),
+        inset 0 0 30px rgba(255, 215, 0, 0.25);
       position: relative;
       z-index: 10;
     }
@@ -255,12 +255,19 @@
       color: #FFD700;
       font-weight: 700;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      box-shadow: 0 0 10px rgba(255,215,0,0.3);
+      border-radius: 12px;
+      overflow: hidden;
     }
     #priceTracker th, #priceTracker td {
       padding: 14px 12px;
       border-bottom: 1px solid #444;
       text-align: center;
       user-select: text;
+      border-right: 1px solid #444;
+    }
+    #priceTracker th:last-child, #priceTracker td:last-child {
+      border-right: none;
     }
     #priceTracker th {
       background: #121212;
@@ -270,10 +277,12 @@
     .price-up {
       color: #4caf50;
       font-weight: 900;
+      text-shadow: 0 0 6px #4caf50;
     }
     .price-down {
       color: #f44336;
       font-weight: 900;
+      text-shadow: 0 0 6px #f44336;
     }
 
     /* Tooltip بسيط */
@@ -357,39 +366,11 @@
         bottom: 8px;
         right: 10px;
       }
-      /* الساعة */
-      #clock {
-        font-size: 1.3rem;
-        top: 10px;
-        right: 10px;
-        padding: 6px 12px;
-      }
-    }
-
-    /* الساعة العلوية */
-    #clock {
-      position: fixed;
-      top: 15px;
-      right: 20px;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #FFD700;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-shadow: 0 0 6px #FFD700;
-      user-select: none;
-      z-index: 1001;
-      background: rgba(18,18,18,0.7);
-      padding: 8px 16px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255,215,0,0.6);
-      letter-spacing: 2px;
-      font-variant-numeric: tabular-nums;
-      pointer-events: none;
     }
   </style>
 </head>
 <body>
-  <div id="clock"></div>
+
   <div class="container">
     <h1>Confess.fun</h1>
     <input
@@ -433,18 +414,6 @@
   <div id="signature">Bader Alkorgli</div>
 
   <script>
-    // تحديث الساعة الرقمية
-    function updateClock() {
-      const clock = document.getElementById('clock');
-      const now = new Date();
-      const h = now.getHours().toString().padStart(2, '0');
-      const m = now.getMinutes().toString().padStart(2, '0');
-      const s = now.getSeconds().toString().padStart(2, '0');
-      clock.textContent = `${h}:${m}:${s}`;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
     const funnyPhrases = [
       "Oops! Your wallet lost more coins than your favorite game’s high score!",
       "Your biggest loss? Somewhere between ‘Oops’ and ‘Why did I do that?’",
@@ -502,4 +471,39 @@
 
     // كود متابعة الأسعار
     const coins = ['bitcoin', 'solana', 'ethereum'];
-    const apiURL = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24
+    const apiURL = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`;
+
+    async function fetchPrices() {
+      try {
+        const response = await fetch(apiURL);
+        const data = await response.json();
+        const tbody = document.getElementById('crypto-table');
+        tbody.innerHTML = ''; // تفريغ البيانات السابقة
+
+        coins.forEach(coin => {
+          const price = data[coin]?.usd ?? 'N/A';
+          const change = data[coin]?.usd_24h_change ?? 0;
+          const changeClass = change >= 0 ? 'price-up' : 'price-down';
+          const changeFormatted = change ? change.toFixed(2) + '%' : 'N/A';
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td style="text-transform: capitalize;">${coin}</td>
+            <td>$${price.toLocaleString()}</td>
+            <td class="${changeClass}">${changeFormatted}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Failed to fetch prices:', error);
+        const tbody = document.getElementById('crypto-table');
+        tbody.innerHTML = '<tr><td colspan="3">Failed to load prices</td></tr>';
+      }
+    }
+
+    fetchPrices();
+    setInterval(fetchPrices, 60000); // تحديث كل دقيقة
+  </script>
+</body>
+</html>
+``
