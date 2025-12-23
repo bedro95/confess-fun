@@ -266,9 +266,10 @@
     }
     .bubble {
       background: #222;
-      border-radius: 50%;
-      width: 120px;
-      height: 120px;
+      border-radius: 20px;
+      padding: 12px 20px;
+      min-width: 130px;
+      max-width: 160px;
       box-shadow:
         0 10px 30px rgba(255, 215, 0, 0.5),
         inset 0 0 15px rgba(255, 215, 0, 0.25);
@@ -284,32 +285,35 @@
       transition: transform 0.3s ease;
     }
     .bubble:hover {
-      transform: scale(1.12);
+      transform: scale(1.1);
       box-shadow:
         0 12px 35px rgba(255, 215, 0, 0.8),
         inset 0 0 20px rgba(255, 215, 0, 0.4);
     }
     .bubble .coin-name {
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       font-weight: 900;
       margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 1.4px;
+      white-space: nowrap;
     }
     .bubble .price-usd {
       font-size: 1.2rem;
       font-weight: 900;
       margin-bottom: 6px;
       font-family: monospace;
+      white-space: nowrap;
     }
     .bubble .change {
       font-size: 1rem;
       font-weight: 900;
-      padding: 4px 12px;
+      padding: 4px 14px;
       border-radius: 12px;
       color: #000;
       font-family: monospace;
       user-select: none;
+      white-space: nowrap;
     }
     .price-up .change {
       background-color: #4caf50;
@@ -322,56 +326,25 @@
       color: #fff;
     }
 
-    /* تحسينات موبايل Responsive */
+    /* موبايل */
     @media (max-width: 480px) {
-      .container {
-        padding: 25px 20px;
-        max-width: 100%;
-        border-radius: 12px;
-      }
-      .logo {
-        font-size: 2.2rem;
-        letter-spacing: 4px;
-      }
-      input[type="text"] {
-        font-size: 16px;
-        padding: 14px 16px;
-      }
-      button {
-        font-size: 18px;
-        padding: 14px 0;
-        letter-spacing: 1.2px;
-        border-radius: 12px;
-      }
-      #copyBtn {
-        font-size: 1rem;
-        padding: 10px 18px;
-        border-radius: 12px;
-      }
-      #twitterBtn {
-        width: 44px;
-        height: 44px;
-        font-size: 22px;
-        padding: 0;
-        border-radius: 50%;
-        margin: 20px auto 0 auto;
-      }
       #priceBubbles {
         gap: 12px;
       }
       .bubble {
-        width: 100px;
-        height: 100px;
+        min-width: 110px;
+        max-width: 140px;
+        padding: 10px 16px;
       }
       .bubble .coin-name {
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
       .bubble .price-usd {
         font-size: 1.1rem;
       }
       .bubble .change {
         font-size: 0.9rem;
-        padding: 3px 8px;
+        padding: 3px 10px;
       }
       #signature {
         font-size: 0.6rem;
