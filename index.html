@@ -25,9 +25,26 @@
       padding: 20px;
       line-height: 1.5;
       position: relative;
+      overflow-x: hidden;
+      /* الخلفية الشبكية */
+      background-image:
+        linear-gradient(0deg, rgba(255,215,0,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,215,0,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: moveGrid 20s linear infinite;
     }
+
+    @keyframes moveGrid {
+      0% {
+        background-position: 0 0, 0 0;
+      }
+      100% {
+        background-position: 40px 40px, 40px 40px;
+      }
+    }
+
     .container {
-      background: #121212;
+      background: #121212cc; /* خليتها شفافة شوي عشان تظهر الخلفية تحت */
       padding: 45px 40px;
       border-radius: 20px;
       box-shadow:
@@ -36,6 +53,8 @@
       max-width: 480px;
       width: 100%;
       user-select: none;
+      position: relative;
+      z-index: 10;
     }
     h1 {
       margin-bottom: 45px;
@@ -185,6 +204,7 @@
       text-shadow: 0 0 4px #BFAF2E;
       position: relative;
       padding-bottom: 30px;
+      z-index: 10;
     }
     footer span {
       display: block;
@@ -215,6 +235,8 @@
       box-shadow:
         0 8px 25px rgba(255, 215, 0, 0.35),
         inset 0 0 25px rgba(255, 215, 0, 0.18);
+      position: relative;
+      z-index: 10;
     }
     #priceTracker h2 {
       margin: 0 0 22px 0;
@@ -335,10 +357,39 @@
         bottom: 8px;
         right: 10px;
       }
+      /* الساعة */
+      #clock {
+        font-size: 1.3rem;
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+      }
+    }
+
+    /* الساعة العلوية */
+    #clock {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #FFD700;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-shadow: 0 0 6px #FFD700;
+      user-select: none;
+      z-index: 1001;
+      background: rgba(18,18,18,0.7);
+      padding: 8px 16px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255,215,0,0.6);
+      letter-spacing: 2px;
+      font-variant-numeric: tabular-nums;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
+  <div id="clock"></div>
   <div class="container">
     <h1>Confess.fun</h1>
     <input
@@ -382,6 +433,18 @@
   <div id="signature">Bader Alkorgli</div>
 
   <script>
+    // تحديث الساعة الرقمية
+    function updateClock() {
+      const clock = document.getElementById('clock');
+      const now = new Date();
+      const h = now.getHours().toString().padStart(2, '0');
+      const m = now.getMinutes().toString().padStart(2, '0');
+      const s = now.getSeconds().toString().padStart(2, '0');
+      clock.textContent = `${h}:${m}:${s}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
     const funnyPhrases = [
       "Oops! Your wallet lost more coins than your favorite game’s high score!",
       "Your biggest loss? Somewhere between ‘Oops’ and ‘Why did I do that?’",
@@ -439,37 +502,4 @@
 
     // كود متابعة الأسعار
     const coins = ['bitcoin', 'solana', 'ethereum'];
-    const apiURL = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`;
-
-    async function fetchPrices() {
-      try {
-        const response = await fetch(apiURL);
-        const data = await response.json();
-
-        const tbody = document.getElementById('crypto-table');
-        tbody.innerHTML = '';
-
-        coins.forEach(coin => {
-          const price = data[coin].usd.toFixed(2);
-          const change = data[coin].usd_24h_change.toFixed(2);
-          const changeClass = change >= 0 ? 'price-up' : 'price-down';
-
-          const row = `
-            <tr>
-              <td>${coin.charAt(0).toUpperCase() + coin.slice(1)}</td>
-              <td>$${price}</td>
-              <td class="${changeClass}">${change}%</td>
-            </tr>
-          `;
-          tbody.insertAdjacentHTML('beforeend', row);
-        });
-      } catch (error) {
-        console.error('Error fetching prices:', error);
-      }
-    }
-
-    fetchPrices();
-    setInterval(fetchPrices, 30000);
-  </script>
-</body>
-</html>
+    const apiURL = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24
