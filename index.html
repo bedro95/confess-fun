@@ -173,6 +173,49 @@
       display: block;
       margin: 4px 0;
     }
+    /* --- إضافة تنسيقات أداة متابعة الأسعار --- */
+    #priceTracker {
+      margin-top: 40px;
+      background: #222;
+      padding: 20px 15px;
+      border-radius: 14px;
+      box-shadow:
+        0 6px 20px rgba(255, 215, 0, 0.3),
+        inset 0 0 20px rgba(255, 215, 0, 0.15);
+    }
+    #priceTracker h2 {
+      margin: 0 0 20px 0;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #FFD700;
+      text-shadow: 0 0 8px #FFD700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    #priceTracker table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #FFD700;
+      font-weight: 700;
+    }
+    #priceTracker th, #priceTracker td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #444;
+      text-align: center;
+    }
+    #priceTracker th {
+      background: #121212;
+      font-size: 1.1rem;
+      letter-spacing: 1.5px;
+    }
+    .price-up {
+      color: #4caf50;
+      font-weight: 900;
+    }
+    .price-down {
+      color: #f44336;
+      font-weight: 900;
+    }
   </style>
 </head>
 <body>
@@ -192,6 +235,23 @@
     <button id="twitterBtn" onclick="openTwitter()" aria-label="Go to X page">
       <span>X</span> Visit
     </button>
+
+    <!-- إضافة أداة متابعة الأسعار -->
+    <div id="priceTracker">
+      <h2>متابعة أسعار العملات</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>عملة</th>
+            <th>السعر (USD)</th>
+            <th>تغير 24 ساعة</th>
+          </tr>
+        </thead>
+        <tbody id="crypto-table">
+          <!-- البيانات تظهر هنا -->
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <footer>
@@ -249,6 +309,40 @@
     function openTwitter() {
       window.open('https://x.com/confessdotfun?s=21', '_blank', 'noopener');
     }
+
+    // كود متابعة الأسعار
+    const coins = ['bitcoin', 'solana', 'ethereum'];
+    const apiURL = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`;
+
+    async function fetchPrices() {
+      try {
+        const response = await fetch(apiURL);
+        const data = await response.json();
+
+        const tbody = document.getElementById('crypto-table');
+        tbody.innerHTML = '';
+
+        coins.forEach(coin => {
+          const price = data[coin].usd.toFixed(2);
+          const change = data[coin].usd_24h_change.toFixed(2);
+          const changeClass = change >= 0 ? 'price-up' : 'price-down';
+
+          const row = `
+            <tr>
+              <td>${coin.charAt(0).toUpperCase() + coin.slice(1)}</td>
+              <td>$${price}</td>
+              <td class="${changeClass}">${change}%</td>
+            </tr>
+          `;
+          tbody.insertAdjacentHTML('beforeend', row);
+        });
+      } catch (error) {
+        console.error('خطأ في جلب البيانات:', error);
+      }
+    }
+
+    fetchPrices();
+    setInterval(fetchPrices, 30000);
   </script>
 </body>
 </html>
