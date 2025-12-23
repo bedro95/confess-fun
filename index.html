@@ -160,15 +160,16 @@
       box-shadow: 0 9px 25px rgba(255, 215, 0, 1);
     }
 
-    /* زر زيارة X الآن أسفل الصفحة */
+    /* زر زيارة X فقط */
     #twitterBtn {
       margin: 25px auto 0 auto;
-      padding: 14px 0;
-      width: 160px;
+      padding: 0;
+      width: 48px;
+      height: 48px;
       background: #000000;
-      border-radius: 18px;
+      border-radius: 50%;
       font-weight: 900;
-      font-size: 24px;
+      font-size: 26px;
       color: #FFD700;
       cursor: pointer;
       user-select: none;
@@ -178,20 +179,23 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
       border: 2px solid #FFD700;
       position: relative;
       z-index: 10;
+      line-height: 1;
     }
     #twitterBtn:hover {
       background: #222;
       box-shadow: 0 12px 30px rgba(255, 215, 0, 1);
     }
     #twitterBtn span {
+      line-height: 1;
       font-size: 28px;
       font-weight: 900;
+      user-select: none;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
       line-height: 1;
     }
 
@@ -212,11 +216,11 @@
       display: block;
       margin: 5px 0;
     }
-    /* توقيع باسمك في أسفل الصفحة جهة اليمين */
+    /* توقيع باسمك ثابت في الركن السفلي */
     #signature {
       position: fixed;
-      bottom: 10px;
-      right: 15px;
+      bottom: 8px;
+      right: 12px;
       font-size: 0.75rem;
       color: rgba(255, 215, 0, 0.6);
       font-weight: 600;
@@ -253,7 +257,8 @@
     }
     #priceTracker table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0 8px;
       color: #FFD700;
       font-weight: 700;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -262,11 +267,11 @@
       overflow: hidden;
     }
     #priceTracker th, #priceTracker td {
-      padding: 14px 12px;
-      border-bottom: 1px solid #444;
+      padding: 14px 16px;
       text-align: center;
       user-select: text;
       border-right: 1px solid #444;
+      vertical-align: middle;
     }
     #priceTracker th:last-child, #priceTracker td:last-child {
       border-right: none;
@@ -275,6 +280,15 @@
       background: #121212;
       font-size: 1.1rem;
       letter-spacing: 1.5px;
+      border-radius: 8px 8px 0 0;
+    }
+    #priceTracker tbody tr {
+      background: #1e1e1e;
+      border-radius: 12px;
+      box-shadow: 0 1px 6px rgba(255, 215, 0, 0.15);
+    }
+    #priceTracker tbody tr:not(:last-child) {
+      margin-bottom: 8px;
     }
     .price-up {
       color: #4caf50;
@@ -342,11 +356,11 @@
         border-radius: 12px;
       }
       #twitterBtn {
-        font-size: 20px;
-        padding: 12px 0;
-        border-radius: 14px;
-        letter-spacing: 1.2px;
-        width: 140px;
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+        padding: 0;
+        border-radius: 50%;
         margin: 20px auto 0 auto;
       }
       #priceTracker {
@@ -413,7 +427,7 @@
   </footer>
 
   <button id="twitterBtn" onclick="openTwitter()" aria-label="Go to X page" data-tooltip="Visit our X page">
-    <span>✕</span> Visit on X
+    <span>X</span>
   </button>
 
   <div id="signature">Bader Alkorgli</div>
@@ -492,21 +506,4 @@
 
           const row = document.createElement('tr');
           row.innerHTML = `
-            <td style="text-transform: capitalize;">${coin}</td>
-            <td>$${price.toLocaleString()}</td>
-            <td class="${changeClass}">${changeFormatted}</td>
-          `;
-          tbody.appendChild(row);
-        });
-      } catch (error) {
-        console.error('Failed to fetch prices:', error);
-        const tbody = document.getElementById('crypto-table');
-        tbody.innerHTML = '<tr><td colspan="3">Failed to load prices</td></tr>';
-      }
-    }
-
-    fetchPrices();
-    setInterval(fetchPrices, 60000);
-  </script>
-</body>
-</html>
+            <td style
