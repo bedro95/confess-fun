@@ -1,49 +1,52 @@
 <!DOCTYPE html>
-<html lang="ar" >
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Confess.fun - Wallet Fun Results</title>
+  <title>confess.fun - Wallet Fun Confessions</title>
   <style>
+    /* Reset بسيط */
     * {
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      margin: 0; padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #000000;
-      color: #FFD700;
-      direction: rtl;
+      background-color: #000; /* أسود */
+      color: #FFD700; /* ذهبي */
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      text-align: center;
+      padding: 30px 20px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      padding: 20px;
-      line-height: 1.5;
-      position: relative;
       overflow-x: hidden;
+    }
+
+    /* الخلفية الشبكية المتحركة */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
       background-image:
-        linear-gradient(0deg, rgba(255,215,0,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,215,0,0.05) 1px, transparent 1px);
+        linear-gradient(0deg, rgba(255, 215, 0, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 215, 0, 0.06) 1px, transparent 1px);
       background-size: 40px 40px;
       animation: moveGrid 20s linear infinite;
+      z-index: 0;
+      pointer-events: none;
     }
 
     @keyframes moveGrid {
-      0% {
-        background-position: 0 0, 0 0;
-      }
-      100% {
-        background-position: 40px 40px, 40px 40px;
-      }
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 40px 40px, 40px 40px; }
     }
 
+    /* الحاوية الرئيسية */
     .container {
-      background: #121212cc;
+      background: rgba(18, 18, 18, 0.9);
       padding: 45px 40px;
       border-radius: 20px;
       box-shadow:
@@ -51,15 +54,14 @@
         inset 0 0 50px rgba(255, 215, 0, 0.15);
       max-width: 480px;
       width: 100%;
-      user-select: none;
-      position: relative;
-      z-index: 10;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
+      user-select: none;
     }
 
-    /* شعار أوضح وأكبر */
+    /* الشعار */
     .logo {
       font-weight: 900;
       font-size: 3rem;
@@ -71,12 +73,13 @@
         0 0 40px #FFEB3B,
         0 0 60px #FFD700;
       letter-spacing: 6px;
-      margin-bottom: 18px;
+      margin-bottom: 25px;
       user-select: none;
       text-transform: uppercase;
       font-family: 'Arial Black', Gadget, sans-serif;
     }
 
+    /* حقل الإدخال */
     input[type="text"] {
       width: 100%;
       padding: 18px 22px;
@@ -87,10 +90,12 @@
       font-size: 18px;
       letter-spacing: 1.2px;
       font-weight: 600;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      outline: none;
       box-shadow: inset 0 0 12px #FFD700;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      outline: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: text;
+      direction: ltr;
     }
     input[type="text"]::placeholder {
       color: #BFAF2E;
@@ -102,8 +107,9 @@
       box-shadow: 0 0 15px #FFD700, inset 0 0 18px #FFD700;
       color: #FFF;
     }
-    button {
-      margin-top: 0;
+
+    /* زر الاعتراف */
+    button#confessBtn {
       width: 100%;
       padding: 18px 0;
       background: linear-gradient(90deg, #FFD700 0%, #FFC107 100%);
@@ -123,16 +129,19 @@
       align-items: center;
       gap: 10px;
     }
-    button:hover:enabled {
+    button#confessBtn:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    button#confessBtn:hover:enabled {
       background: linear-gradient(90deg, #FFC107 0%, #FFEB3B 100%);
       box-shadow: 0 12px 30px rgba(255, 215, 0, 1);
     }
-    button:active:enabled {
+    button#confessBtn:active:enabled {
       transform: scale(0.97);
     }
-    button:disabled {
-      cursor: not-allowed;
-    }
+
+    /* نتيجة الاعتراف */
     #result {
       margin-top: 40px;
       font-weight: 700;
@@ -142,20 +151,23 @@
       user-select: text;
       white-space: pre-wrap;
       text-shadow: 0 0 10px #FFD700;
-      min-height: 100px;
+      min-height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 12px;
+      padding: 15px 20px;
       border-radius: 14px;
       background: rgba(255, 215, 0, 0.12);
       flex-direction: column;
       max-width: 100%;
       box-sizing: border-box;
+      text-align: center;
     }
+
+    /* زر النسخ */
     #copyBtn {
-      margin-top: 14px;
-      padding: 12px 25px;
+      margin-top: 20px;
+      padding: 14px 30px;
       background: #FFD700;
       color: #000;
       font-weight: 900;
@@ -169,86 +181,16 @@
       align-items: center;
       gap: 8px;
       box-shadow: 0 6px 15px rgba(255, 215, 0, 0.85);
+      opacity: 0;
+      pointer-events: none;
+    }
+    #copyBtn.visible {
+      opacity: 1;
+      pointer-events: auto;
     }
     #copyBtn:hover {
       background: #FFC107;
       box-shadow: 0 9px 25px rgba(255, 215, 0, 1);
-    }
-
-    /* زر زيارة X فقط */
-    #twitterBtn {
-      margin: 25px auto 0 auto;
-      padding: 0;
-      width: 48px;
-      height: 48px;
-      background: #000000;
-      border-radius: 50%;
-      font-weight: 900;
-      font-size: 26px;
-      color: #FFD700;
-      cursor: pointer;
-      user-select: none;
-      box-shadow:
-        0 8px 18px rgba(255, 215, 0, 0.9);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 2px solid #FFD700;
-      position: relative;
-      z-index: 10;
-      line-height: 1;
-      border-radius: 50%;
-      text-decoration: none;
-    }
-    #twitterBtn:hover {
-      background: #222;
-      box-shadow: 0 12px 30px rgba(255, 215, 0, 1);
-    }
-    #twitterBtn span {
-      line-height: 1;
-      font-size: 28px;
-      font-weight: 900;
-      user-select: none;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1;
-    }
-
-    footer {
-      margin-top: 36px;
-      color: #BFAF2E;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 1.1px;
-      user-select: none;
-      text-align: center;
-      text-shadow: 0 0 4px #BFAF2E;
-      position: relative;
-      padding-bottom: 30px;
-      z-index: 10;
-      max-width: 480px;
-      width: 100%;
-    }
-    footer span {
-      display: block;
-      margin: 5px 0;
-    }
-    /* توقيع باسمك ثابت في الركن السفلي */
-    #signature {
-      position: fixed;
-      bottom: 8px;
-      right: 12px;
-      font-size: 0.75rem;
-      color: rgba(255, 215, 0, 0.6);
-      font-weight: 600;
-      user-select: none;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      pointer-events: none;
-      letter-spacing: 0.8px;
-      z-index: 1000;
-      direction: ltr;
     }
 
     /* فقاعات أسعار العملات */
@@ -267,7 +209,7 @@
     .bubble {
       background: #222;
       border-radius: 20px;
-      padding: 12px 20px;
+      padding: 14px 22px;
       min-width: 130px;
       max-width: 160px;
       box-shadow:
@@ -326,8 +268,96 @@
       color: #fff;
     }
 
-    /* موبايل */
+    /* زر X تويتر/إكس */
+    #twitterBtn {
+      margin: 35px auto 0 auto;
+      padding: 0;
+      width: 52px;
+      height: 52px;
+      background: #000000;
+      border-radius: 50%;
+      font-weight: 900;
+      font-size: 28px;
+      color: #FFD700;
+      cursor: pointer;
+      user-select: none;
+      box-shadow:
+        0 8px 18px rgba(255, 215, 0, 0.9);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #FFD700;
+      text-decoration: none;
+      position: relative;
+      z-index: 10;
+    }
+    #twitterBtn:hover {
+      background: #222;
+      box-shadow: 0 12px 30px rgba(255, 215, 0, 1);
+    }
+    #twitterBtn span {
+      line-height: 1;
+      font-weight: 900;
+      user-select: none;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* الفوتر */
+    footer {
+      margin-top: 40px;
+      color: #BFAF2E;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 1.1px;
+      user-select: none;
+      text-align: center;
+      text-shadow: 0 0 4px #BFAF2E;
+      max-width: 480px;
+      width: 100%;
+      padding-bottom: 30px;
+      z-index: 10;
+    }
+    footer span {
+      display: block;
+      margin: 5px 0;
+    }
+
+    /* توقيع باسمك في الركن */
+    #signature {
+      position: fixed;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.75rem;
+      color: rgba(255, 215, 0, 0.6);
+      font-weight: 600;
+      user-select: none;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      pointer-events: none;
+      letter-spacing: 0.8px;
+      z-index: 1000;
+      direction: ltr;
+    }
+
+    /* استجابة الموبايل */
     @media (max-width: 480px) {
+      .container {
+        padding: 30px 25px;
+      }
+      .logo {
+        font-size: 2.3rem;
+        letter-spacing: 4px;
+      }
+      input[type="text"] {
+        font-size: 16px;
+        padding: 14px 18px;
+      }
+      button#confessBtn {
+        font-size: 20px;
+        padding: 16px 0;
+      }
       #priceBubbles {
         gap: 12px;
       }
@@ -352,67 +382,90 @@
         right: 10px;
       }
       footer {
-        max-width: 100%;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
+  <div class="container" role="main" aria-label="Confess wallet fun">
+    <div class="logo" aria-live="polite" aria-atomic="true">confess.fun</div>
 
-  <div class="container">
-    <div class="logo">confess.fun</div>
     <input
       type="text"
       id="walletAddress"
-      placeholder="Enter your wallet address"
+      placeholder="ادخل عنوان المحفظة"
       autocomplete="off"
       spellcheck="false"
+      aria-label="أدخل عنوان المحفظة"
       oninput="validateInput()"
+      dir="ltr"
     />
-    <button id="confessBtn" onclick="showFunnyResult()" disabled data-tooltip="Tell us your wallet confession!">💬 confess</button>
-    <div id="result"></div>
-    <button id="copyBtn" onclick="copyResult()" data-tooltip="Copy your funny confession!">📋 Copy &amp; Flex Your Losses</button>
+    <button
+      id="confessBtn"
+      onclick="showFunnyResult()"
+      disabled
+      aria-disabled="true"
+      aria-describedby="walletAddress"
+    >
+      💬 اعتراف
+    </button>
 
-    <!-- فقاعات أسعار العملات -->
-    <div id="priceBubbles" aria-label="Crypto Prices">
-      <!-- الفقاعات تظهر هنا -->
-    </div>
+    <div id="result" aria-live="polite" aria-atomic="true" role="region"></div>
+
+    <button
+      id="copyBtn"
+      onclick="copyResult()"
+      aria-label="نسخ الاعتراف"
+      title="نسخ الاعتراف"
+    >
+      📋 نسخ وشارك خسائرك
+    </button>
+
+    <div id="priceBubbles" aria-label="أسعار العملات المشفرة"></div>
   </div>
 
-  <footer>
-    <span>Version 2025</span>
-    <span>Powered by Solana</span>
-  </footer>
-
-  <a id="twitterBtn" href="https://x.com/confessdotfun?s=21" target="_blank" rel="noopener" aria-label="Go to X page" data-tooltip="Visit our X page">
+  <a
+    id="twitterBtn"
+    href="https://x.com/confessdotfun?s=21"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="زيارة صفحة X"
+  >
     <span>X</span>
   </a>
+
+  <footer>
+    <span>الإصدار 2025</span>
+    <span>مدعوم من سولانا</span>
+  </footer>
 
   <div id="signature">Bader Alkorgli</div>
 
   <script>
     const funnyPhrases = [
-      "Oops! Your wallet lost more coins than your favorite game’s high score!",
-      "Your biggest loss? Somewhere between ‘Oops’ and ‘Why did I do that?’",
-      "Congrats! You’ve officially mastered the art of ‘pump and dump’!",
-      "Your wallet’s biggest loss is bigger than your weekend plans!",
-      "Don’t worry, even the best traders lose some SOL!",
-      "Your losses could fund a small coffee shop ☕️",
-      "If losses were trophies, you’d be the champ 🏆",
-      "Your wallet’s secret? Losing coins with style!",
-      "Lost more than your phone today? Your wallet did!",
-      "Your biggest loss is the stuff of legends… unfortunately."
+      "Oops! محفظتك خسرت أكثر من أعلى نقاط لعبتك المفضلة!",
+      "أكبر خسارة؟ بين 'آسف' و 'لماذا فعلت ذلك؟'",
+      "مبروك! أنت محترف في فن 'الضخ والتفريغ'!",
+      "خسارة محفظتك أكبر من خطط عطلتك!",
+      "لا تقلق، حتى أفضل المتداولين يخسرون بعض الـ SOL!",
+      "خسائرك تكفي لتمويل مقهى صغير ☕️",
+      "لو كانت الخسائر أوسمة، كنت البطل 🏆",
+      "سر محفظتك؟ خسارة العملات بأناقة!",
+      "هل خسرت هاتفك اليوم؟ محفظتك خسرت أكثر!",
+      "أكبر خسارة لديك أصبحت أسطورة... للأسف."
     ];
 
     function validateInput() {
       const input = document.getElementById('walletAddress').value.trim();
       const btn = document.getElementById('confessBtn');
-
       if (input.length > 20) {
         btn.disabled = false;
+        btn.setAttribute('aria-disabled', 'false');
         btn.style.opacity = "1";
       } else {
         btn.disabled = true;
+        btn.setAttribute('aria-disabled', 'true');
         btn.style.opacity = "0.5";
       }
     }
@@ -420,25 +473,25 @@
     function showFunnyResult() {
       const resultDiv = document.getElementById('result');
       const phrase = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-      resultDiv.textContent = phrase + "\n\nCheck out confess.fun for more fun wallet confessions!";
+      resultDiv.textContent = phrase + "\n\nزوروا confess.fun للمزيد من المرح!";
+      document.getElementById('copyBtn').classList.add('visible');
     }
 
     function copyResult() {
       const resultText = document.getElementById('result').textContent;
       if (!resultText) {
-        alert('No result to copy');
+        alert('لا يوجد نص للنسخ');
         return;
       }
-
       navigator.clipboard.writeText(resultText).then(() => {
         const btn = document.getElementById('copyBtn');
         const originalText = btn.textContent;
-        btn.textContent = '✅ Copied!';
+        btn.textContent = '✅ تم النسخ!';
         setTimeout(() => {
           btn.textContent = originalText;
-        }, 1000);
+        }, 1200);
       }, () => {
-        alert('Copy failed, please try manually');
+        alert('فشل النسخ، حاول يدوياً');
       });
     }
 
@@ -458,26 +511,4 @@
           const changeClass = change >= 0 ? 'price-up' : 'price-down';
           const changeFormatted = change ? (change >= 0 ? '+' : '') + change.toFixed(2) + '%' : 'N/A';
 
-          const bubble = document.createElement('div');
-          bubble.className = `bubble ${changeClass}`;
-          bubble.title = `${coin.toUpperCase()} price and 24h change`;
-
-          bubble.innerHTML = `
-            <div class="coin-name">${coin.toUpperCase()}</div>
-            <div class="price-usd">$${typeof price === 'number' ? price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6}) : price}</div>
-            <div class="change">${changeFormatted}</div>
-          `;
-
-          container.appendChild(bubble);
-        });
-      } catch (error) {
-        console.error('Failed to fetch prices:', error);
-      }
-    }
-
-    // تحديث الأسعار كل 60 ثانية
-    fetchPrices();
-    setInterval(fetchPrices, 60000);
-  </script>
-</body>
-</html>
+          const bubble
