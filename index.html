@@ -10,8 +10,7 @@
     }
     body {
       margin: 0; padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #000000;
       color: #FFD700;
       direction: rtl;
@@ -24,32 +23,35 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       padding: 20px;
+      line-height: 1.5;
     }
     .container {
       background: #121212;
-      padding: 40px 35px;
-      border-radius: 18px;
+      padding: 45px 40px;
+      border-radius: 20px;
       box-shadow:
-        0 10px 30px rgba(255, 215, 0, 0.25),
-        inset 0 0 40px rgba(255, 215, 0, 0.15);
-      max-width: 460px;
+        0 12px 40px rgba(255, 215, 0, 0.3),
+        inset 0 0 50px rgba(255, 215, 0, 0.15);
+      max-width: 480px;
       width: 100%;
       user-select: none;
     }
     h1 {
-      margin-bottom: 40px;
-      font-weight: 800;
-      font-size: 2.6rem;
-      letter-spacing: 3px;
-      color: #FFD700;
+      margin-bottom: 45px;
+      font-weight: 900;
+      font-size: 2.8rem;
+      letter-spacing: 4px;
+      background: linear-gradient(90deg, #FFD700, #FFEA00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
       text-transform: uppercase;
-      text-shadow: 0 0 8px #FFD700, 0 0 15px #FFD700;
     }
     input[type="text"] {
       width: 100%;
-      padding: 16px 20px;
+      padding: 18px 22px;
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       background-color: #222;
       color: #FFD700;
       font-size: 18px;
@@ -57,142 +59,156 @@
       font-weight: 600;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
       outline: none;
-      box-shadow: inset 0 0 10px #FFD700;
+      box-shadow: inset 0 0 12px #FFD700;
     }
     input[type="text"]::placeholder {
       color: #BFAF2E;
       font-style: italic;
-      opacity: 0.8;
+      opacity: 0.85;
     }
     input[type="text"]:focus {
       background-color: #333;
-      box-shadow: 0 0 12px #FFD700, inset 0 0 14px #FFD700;
+      box-shadow: 0 0 15px #FFD700, inset 0 0 18px #FFD700;
       color: #FFF;
     }
     button {
-      margin-top: 25px;
+      margin-top: 28px;
       width: 100%;
-      padding: 16px 0;
+      padding: 18px 0;
       background: linear-gradient(90deg, #FFD700 0%, #FFC107 100%);
       border: none;
-      border-radius: 14px;
-      font-size: 20px;
+      border-radius: 16px;
+      font-size: 22px;
       font-weight: 900;
       color: #000;
       cursor: pointer;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.8px;
       text-transform: uppercase;
-      box-shadow: 0 6px 12px rgba(255, 215, 0, 0.6);
-      transition: background 0.35s ease, box-shadow 0.35s ease;
+      box-shadow: 0 8px 18px rgba(255, 215, 0, 0.65);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
       user-select: none;
       opacity: 0.5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
     }
     button:hover:enabled {
       background: linear-gradient(90deg, #FFC107 0%, #FFEB3B 100%);
-      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9);
+      box-shadow: 0 12px 30px rgba(255, 215, 0, 1);
+    }
+    button:active:enabled {
+      transform: scale(0.97);
     }
     button:disabled {
       cursor: not-allowed;
     }
     #result {
-      margin-top: 35px;
+      margin-top: 40px;
       font-weight: 700;
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       color: #FFD700;
       letter-spacing: 1.1px;
       user-select: text;
       white-space: pre-wrap;
-      text-shadow: 0 0 8px #FFD700;
-      min-height: 90px;
+      text-shadow: 0 0 10px #FFD700;
+      min-height: 100px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 10px;
-      border-radius: 12px;
-      background: rgba(255, 215, 0, 0.1);
+      padding: 0 12px;
+      border-radius: 14px;
+      background: rgba(255, 215, 0, 0.12);
       flex-direction: column;
     }
     #copyBtn {
-      margin-top: 10px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 12px;
+      margin-top: 14px;
+      padding: 12px 25px;
       background: #FFD700;
       color: #000;
-      font-weight: 800;
+      font-weight: 900;
+      border: none;
+      border-radius: 14px;
       cursor: pointer;
       user-select: none;
-      font-size: 1rem;
-      transition: background 0.3s ease;
+      font-size: 1.15rem;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 15px rgba(255, 215, 0, 0.85);
     }
     #copyBtn:hover {
       background: #FFC107;
+      box-shadow: 0 9px 25px rgba(255, 215, 0, 1);
     }
     #twitterBtn {
-      margin-top: 12px;
-      padding: 10px 0;
+      margin-top: 16px;
+      padding: 14px 0;
       width: 100%;
       background: #000000;
-      border-radius: 14px;
+      border-radius: 18px;
       font-weight: 900;
-      font-size: 24px;
+      font-size: 26px;
       color: #FFD700;
       cursor: pointer;
       user-select: none;
       box-shadow:
-        0 6px 12px rgba(255, 215, 0, 0.8);
+        0 8px 18px rgba(255, 215, 0, 0.9);
       transition: background 0.3s ease, box-shadow 0.3s ease;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.6px;
       border: 2px solid #FFD700;
+      position: relative;
     }
     #twitterBtn:hover {
       background: #222;
-      box-shadow: 0 10px 25px rgba(255, 215, 0, 1);
+      box-shadow: 0 12px 30px rgba(255, 215, 0, 1);
     }
     #twitterBtn span {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 900;
       line-height: 1;
     }
     footer {
-      margin-top: 30px;
+      margin-top: 36px;
       color: #BFAF2E;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      letter-spacing: 1px;
+      letter-spacing: 1.1px;
       user-select: none;
       text-align: center;
-      text-shadow: 0 0 3px #BFAF2E;
+      text-shadow: 0 0 4px #BFAF2E;
     }
     footer span {
       display: block;
-      margin: 4px 0;
+      margin: 5px 0;
     }
 
     /* تصميم جدول أداة متابعة الأسعار */
     #priceTracker {
-      margin-top: 40px;
+      margin-top: 45px;
       background: #222;
-      padding: 20px 15px;
-      border-radius: 14px;
+      padding: 22px 18px;
+      border-radius: 16px;
       box-shadow:
-        0 6px 20px rgba(255, 215, 0, 0.3),
-        inset 0 0 20px rgba(255, 215, 0, 0.15);
+        0 8px 25px rgba(255, 215, 0, 0.35),
+        inset 0 0 25px rgba(255, 215, 0, 0.18);
     }
     #priceTracker h2 {
-      margin: 0 0 20px 0;
-      font-size: 1.4rem;
-      font-weight: 800;
+      margin: 0 0 22px 0;
+      font-size: 1.5rem;
+      font-weight: 900;
       color: #FFD700;
-      text-shadow: 0 0 8px #FFD700;
-      letter-spacing: 1.5px;
+      text-shadow: 0 0 10px #FFD700;
+      letter-spacing: 1.8px;
       text-transform: uppercase;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      user-select: none;
     }
     #priceTracker table {
       width: 100%;
@@ -202,14 +218,15 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     #priceTracker th, #priceTracker td {
-      padding: 12px 10px;
+      padding: 14px 12px;
       border-bottom: 1px solid #444;
       text-align: center;
+      user-select: text;
     }
     #priceTracker th {
       background: #121212;
-      font-size: 1rem;
-      letter-spacing: 1.3px;
+      font-size: 1.1rem;
+      letter-spacing: 1.5px;
     }
     .price-up {
       color: #4caf50;
@@ -219,6 +236,35 @@
       color: #f44336;
       font-weight: 900;
     }
+
+    /* Tooltip بسيط */
+    [data-tooltip] {
+      position: relative;
+      cursor: pointer;
+    }
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 125%;
+      right: 50%;
+      transform: translateX(50%);
+      background-color: #FFD700;
+      color: #000;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      user-select: none;
+      z-index: 10;
+    }
+    [data-tooltip]:hover::after {
+      opacity: 1;
+    }
+
   </style>
 </head>
 <body>
@@ -232,11 +278,11 @@
       spellcheck="false"
       oninput="validateInput()"
     />
-    <button id="confessBtn" onclick="showFunnyResult()" disabled>confess</button>
+    <button id="confessBtn" onclick="showFunnyResult()" disabled data-tooltip="Tell us your wallet confession!">💬 confess</button>
     <div id="result"></div>
-    <button id="copyBtn" onclick="copyResult()">Copy &amp; Flex Your Losses</button>
-    <button id="twitterBtn" onclick="openTwitter()" aria-label="Go to X page">
-      <span>X</span> Visit
+    <button id="copyBtn" onclick="copyResult()" data-tooltip="Copy your funny confession!">📋 Copy &amp; Flex Your Losses</button>
+    <button id="twitterBtn" onclick="openTwitter()" aria-label="Go to X page" data-tooltip="Visit our X page">
+      <span>✕</span> Visit
     </button>
 
     <!-- أداة متابعة الأسعار -->
@@ -303,7 +349,12 @@
       }
 
       navigator.clipboard.writeText(resultText).then(() => {
-        alert('Result copied!');
+        const btn = document.getElementById('copyBtn');
+        const originalText = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 1000);
       }, () => {
         alert('Copy failed, please try manually');
       });
@@ -340,7 +391,7 @@
           tbody.insertAdjacentHTML('beforeend', row);
         });
       } catch (error) {
-        console.error('خطأ في جلب البيانات:', error);
+        console.error('Error fetching prices:', error);
       }
     }
 
