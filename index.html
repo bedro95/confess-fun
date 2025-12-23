@@ -1,31 +1,23 @@
 <!DOCTYPE html>
-<html lang="ar" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Confess.fun - Wallet Fun Results</title>
+
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+
     body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 20px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #000000;
+      background: #000;
       color: #FFD700;
-      direction: rtl;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       min-height: 100vh;
-      text-align: center;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      padding: 20px;
-      line-height: 1.5;
-      position: relative;
-      overflow-x: hidden;
       background-image:
         linear-gradient(0deg, rgba(255,215,0,0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,215,0,0.05) 1px, transparent 1px);
@@ -34,450 +26,217 @@
     }
 
     @keyframes moveGrid {
-      0% {
-        background-position: 0 0, 0 0;
-      }
-      100% {
-        background-position: 40px 40px, 40px 40px;
-      }
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 40px 40px, 40px 40px; }
     }
 
     .container {
       background: #121212cc;
-      padding: 45px 40px;
+      padding: 40px;
       border-radius: 20px;
-      box-shadow:
-        0 12px 40px rgba(255, 215, 0, 0.3),
-        inset 0 0 50px rgba(255, 215, 0, 0.15);
       max-width: 480px;
       width: 100%;
-      user-select: none;
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      box-shadow: 0 12px 40px rgba(255,215,0,0.35);
+      text-align: center;
     }
 
-    /* شعار أوضح وأكبر */
     .logo {
-      font-weight: 900;
       font-size: 3rem;
-      color: #FFD700;
-      text-shadow:
-        0 0 10px #FFD700,
-        0 0 20px #FFC107,
-        0 0 30px #FFEB3B,
-        0 0 40px #FFEB3B,
-        0 0 60px #FFD700;
-      letter-spacing: 6px;
-      margin-bottom: 18px;
-      user-select: none;
-      text-transform: uppercase;
-      font-family: 'Arial Black', Gadget, sans-serif;
+      font-weight: 900;
+      letter-spacing: 5px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px #FFD700;
     }
 
-    input[type="text"] {
+    input {
       width: 100%;
-      padding: 18px 22px;
-      border: none;
+      padding: 18px;
       border-radius: 14px;
-      background-color: #222;
+      border: none;
+      background: #222;
       color: #FFD700;
-      font-size: 18px;
-      letter-spacing: 1.2px;
-      font-weight: 600;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-size: 17px;
+      margin-bottom: 14px;
       outline: none;
       box-shadow: inset 0 0 12px #FFD700;
-      margin-bottom: 15px;
-    }
-    input[type="text"]::placeholder {
-      color: #BFAF2E;
-      font-style: italic;
-      opacity: 0.85;
-    }
-    input[type="text"]:focus {
-      background-color: #333;
-      box-shadow: 0 0 15px #FFD700, inset 0 0 18px #FFD700;
-      color: #FFF;
-    }
-    button {
-      margin-top: 0;
-      width: 100%;
-      padding: 18px 0;
-      background: linear-gradient(90deg, #FFD700 0%, #FFC107 100%);
-      border: none;
-      border-radius: 16px;
-      font-size: 22px;
-      font-weight: 900;
-      color: #000;
-      cursor: pointer;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      box-shadow: 0 8px 18px rgba(255, 215, 0, 0.65);
-      transition: background 0.4s ease, box-shadow 0.4s ease;
-      user-select: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-    button:hover:enabled {
-      background: linear-gradient(90deg, #FFC107 0%, #FFEB3B 100%);
-      box-shadow: 0 12px 30px rgba(255, 215, 0, 1);
-    }
-    button:active:enabled {
-      transform: scale(0.97);
-    }
-    button:disabled {
-      cursor: not-allowed;
-    }
-    #result {
-      margin-top: 40px;
-      font-weight: 700;
-      font-size: 1.7rem;
-      color: #FFD700;
-      letter-spacing: 1.1px;
-      user-select: text;
-      white-space: pre-wrap;
-      text-shadow: 0 0 10px #FFD700;
-      min-height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 12px;
-      border-radius: 14px;
-      background: rgba(255, 215, 0, 0.12);
-      flex-direction: column;
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-    #copyBtn {
-      margin-top: 14px;
-      padding: 12px 25px;
-      background: #FFD700;
-      color: #000;
-      font-weight: 900;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      user-select: none;
-      font-size: 1.15rem;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 6px 15px rgba(255, 215, 0, 0.85);
-    }
-    #copyBtn:hover {
-      background: #FFC107;
-      box-shadow: 0 9px 25px rgba(255, 215, 0, 1);
     }
 
-    /* زر زيارة X فقط */
-    #twitterBtn {
-      margin: 25px auto 0 auto;
-      padding: 0;
-      width: 48px;
-      height: 48px;
-      background: #000000;
-      border-radius: 50%;
+    button {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 16px;
+      font-size: 20px;
       font-weight: 900;
-      font-size: 26px;
-      color: #FFD700;
+      background: linear-gradient(90deg,#FFD700,#FFC107);
       cursor: pointer;
-      user-select: none;
-      box-shadow:
-        0 8px 18px rgba(255, 215, 0, 0.9);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 6px;
+      box-shadow: 0 8px 20px rgba(255,215,0,0.8);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #result {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 14px;
+      background: rgba(255,215,0,0.12);
+      font-size: 1.4rem;
+      min-height: 80px;
+      white-space: pre-wrap;
+      text-shadow: 0 0 10px #FFD700;
+    }
+
+    #copyBtn {
+      margin-top: 14px;
+      background: #FFD700;
+      color: #000;
+    }
+
+    #priceBubbles {
+      margin-top: 30px;
       display: flex;
+      gap: 14px;
       justify-content: center;
-      align-items: center;
-      border: 2px solid #FFD700;
-      position: relative;
-      z-index: 10;
-      line-height: 1;
-      border-radius: 50%;
-      text-decoration: none;
+      flex-wrap: wrap;
     }
-    #twitterBtn:hover {
+
+    .bubble {
       background: #222;
-      box-shadow: 0 12px 30px rgba(255, 215, 0, 1);
+      padding: 12px 18px;
+      border-radius: 18px;
+      box-shadow: 0 8px 22px rgba(255,215,0,0.6);
+      min-width: 120px;
+      text-align: center;
     }
-    #twitterBtn span {
-      line-height: 1;
-      font-size: 28px;
-      font-weight: 900;
-      user-select: none;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1;
+
+    .price-up .change { background: #4caf50; }
+    .price-down .change { background: #f44336; }
+
+    .change {
+      margin-top: 6px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: bold;
     }
 
     footer {
-      margin-top: 36px;
-      color: #BFAF2E;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 1.1px;
-      user-select: none;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      opacity: 0.7;
       text-align: center;
-      text-shadow: 0 0 4px #BFAF2E;
-      position: relative;
-      padding-bottom: 30px;
-      z-index: 10;
-      max-width: 480px;
-      width: 100%;
     }
-    footer span {
-      display: block;
-      margin: 5px 0;
+
+    #twitterBtn {
+      margin-top: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid #FFD700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: 900;
     }
-    /* توقيع باسمك ثابت في الركن السفلي */
+
     #signature {
       position: fixed;
-      bottom: 8px;
-      right: 12px;
-      font-size: 0.75rem;
-      color: rgba(255, 215, 0, 0.6);
-      font-weight: 600;
-      user-select: none;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      pointer-events: none;
-      letter-spacing: 0.8px;
-      z-index: 1000;
-      direction: ltr;
-    }
-
-    /* فقاعات أسعار العملات */
-    #priceBubbles {
-      margin-top: 45px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
-      max-width: 480px;
-      width: 100%;
-      user-select: none;
-      position: relative;
-      z-index: 10;
-    }
-    .bubble {
-      background: #222;
-      border-radius: 20px;
-      padding: 12px 20px;
-      min-width: 130px;
-      max-width: 160px;
-      box-shadow:
-        0 10px 30px rgba(255, 215, 0, 0.5),
-        inset 0 0 15px rgba(255, 215, 0, 0.25);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: #FFD700;
-      font-weight: 700;
-      text-shadow: 0 0 6px #FFD700;
-      user-select: text;
-      cursor: default;
-      transition: transform 0.3s ease;
-    }
-    .bubble:hover {
-      transform: scale(1.1);
-      box-shadow:
-        0 12px 35px rgba(255, 215, 0, 0.8),
-        inset 0 0 20px rgba(255, 215, 0, 0.4);
-    }
-    .bubble .coin-name {
-      font-size: 1.3rem;
-      font-weight: 900;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 1.4px;
-      white-space: nowrap;
-    }
-    .bubble .price-usd {
-      font-size: 1.2rem;
-      font-weight: 900;
-      margin-bottom: 6px;
-      font-family: monospace;
-      white-space: nowrap;
-    }
-    .bubble .change {
-      font-size: 1rem;
-      font-weight: 900;
-      padding: 4px 14px;
-      border-radius: 12px;
-      color: #000;
-      font-family: monospace;
-      user-select: none;
-      white-space: nowrap;
-    }
-    .price-up .change {
-      background-color: #4caf50;
-      text-shadow: none;
-      color: #fff;
-    }
-    .price-down .change {
-      background-color: #f44336;
-      text-shadow: none;
-      color: #fff;
-    }
-
-    /* موبايل */
-    @media (max-width: 480px) {
-      #priceBubbles {
-        gap: 12px;
-      }
-      .bubble {
-        min-width: 110px;
-        max-width: 140px;
-        padding: 10px 16px;
-      }
-      .bubble .coin-name {
-        font-size: 1.1rem;
-      }
-      .bubble .price-usd {
-        font-size: 1.1rem;
-      }
-      .bubble .change {
-        font-size: 0.9rem;
-        padding: 3px 10px;
-      }
-      #signature {
-        font-size: 0.6rem;
-        bottom: 8px;
-        right: 10px;
-      }
-      footer {
-        max-width: 100%;
-      }
+      bottom: 10px;
+      right: 14px;
+      font-size: 0.7rem;
+      opacity: 0.6;
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
-    <div class="logo">confess.fun</div>
-    <input
-      type="text"
-      id="walletAddress"
-      placeholder="Enter your wallet address"
-      autocomplete="off"
-      spellcheck="false"
-      oninput="validateInput()"
-    />
-    <button id="confessBtn" onclick="showFunnyResult()" disabled data-tooltip="Tell us your wallet confession!">💬 confess</button>
-    <div id="result"></div>
-    <button id="copyBtn" onclick="copyResult()" data-tooltip="Copy your funny confession!">📋 Copy &amp; Flex Your Losses</button>
+    <div class="logo">CONFESS.FUN</div>
 
-    <!-- فقاعات أسعار العملات -->
-    <div id="priceBubbles" aria-label="Crypto Prices">
-      <!-- الفقاعات تظهر هنا -->
-    </div>
+    <input id="wallet" placeholder="Enter your wallet address" />
+
+    <button id="confessBtn" disabled>💬 CONFESS</button>
+
+    <div id="result"></div>
+
+    <button id="copyBtn">📋 Copy & Flex Your Losses</button>
+
+    <div id="priceBubbles"></div>
   </div>
 
   <footer>
-    <span>Version 2025</span>
-    <span>Powered by Solana</span>
+    <div>Version 2025</div>
+    <div>Powered by Solana</div>
   </footer>
 
-  <a id="twitterBtn" href="https://x.com/confessdotfun?s=21" target="_blank" rel="noopener" aria-label="Go to X page" data-tooltip="Visit our X page">
-    <span>X</span>
-  </a>
+  <a id="twitterBtn" href="https://x.com/confessdotfun?s=21" target="_blank">X</a>
 
   <div id="signature">Bader Alkorgli</div>
 
   <script>
-    const funnyPhrases = [
-      "Oops! Your wallet lost more coins than your favorite game’s high score!",
-      "Your biggest loss? Somewhere between ‘Oops’ and ‘Why did I do that?’",
-      "Congrats! You’ve officially mastered the art of ‘pump and dump’!",
-      "Your wallet’s biggest loss is bigger than your weekend plans!",
-      "Don’t worry, even the best traders lose some SOL!",
-      "Your losses could fund a small coffee shop ☕️",
-      "If losses were trophies, you’d be the champ 🏆",
-      "Your wallet’s secret? Losing coins with style!",
-      "Lost more than your phone today? Your wallet did!",
-      "Your biggest loss is the stuff of legends… unfortunately."
+    const wallet = document.getElementById("wallet");
+    const confessBtn = document.getElementById("confessBtn");
+    const result = document.getElementById("result");
+    const copyBtn = document.getElementById("copyBtn");
+    const bubbles = document.getElementById("priceBubbles");
+
+    const phrases = [
+      "Your wallet mastered the art of losing.",
+      "Legendary losses detected.",
+      "You donated liquidity to strangers.",
+      "SOL gone, memories remain.",
+      "Pain confirmed. Diamond hands failed."
     ];
 
-    function validateInput() {
-      const input = document.getElementById('walletAddress').value.trim();
-      const btn = document.getElementById('confessBtn');
+    wallet.addEventListener("input", () => {
+      confessBtn.disabled = wallet.value.trim().length <= 20;
+    });
 
-      if (input.length > 20) {
-        btn.disabled = false;
-        btn.style.opacity = "1";
-      } else {
-        btn.disabled = true;
-        btn.style.opacity = "0.5";
-      }
+    confessBtn.onclick = () => {
+      const text = phrases[Math.floor(Math.random() * phrases.length)];
+      result.textContent = text + "\n\nconfess.fun";
+      localStorage.setItem("last", result.textContent);
+    };
+
+    copyBtn.onclick = () => {
+      if (!result.textContent) return;
+      navigator.clipboard.writeText(result.textContent);
+      copyBtn.textContent = "✅ Copied";
+      setTimeout(() => copyBtn.textContent = "📋 Copy & Flex Your Losses", 1200);
+    };
+
+    if (localStorage.getItem("last")) {
+      result.textContent = localStorage.getItem("last");
     }
 
-    function showFunnyResult() {
-      const resultDiv = document.getElementById('result');
-      const phrase = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
-      resultDiv.textContent = phrase + "\n\nCheck out confess.fun for more fun wallet confessions!";
-    }
+    const coins = ["bitcoin","ethereum","solana"];
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(",")}&vs_currencies=usd&include_24hr_change=true`;
 
-    function copyResult() {
-      const resultText = document.getElementById('result').textContent;
-      if (!resultText) {
-        alert('No result to copy');
-        return;
-      }
-
-      navigator.clipboard.writeText(resultText).then(() => {
-        const btn = document.getElementById('copyBtn');
-        const originalText = btn.textContent;
-        btn.textContent = '✅ Copied!';
-        setTimeout(() => {
-          btn.textContent = originalText;
-        }, 1000);
-      }, () => {
-        alert('Copy failed, please try manually');
+    async function prices() {
+      const r = await fetch(url);
+      const d = await r.json();
+      bubbles.innerHTML = "";
+      coins.forEach(c => {
+        const ch = d[c].usd_24h_change;
+        bubbles.innerHTML += `
+          <div class="bubble ${ch >= 0 ? "price-up":"price-down"}">
+            <div>${c.toUpperCase()}</div>
+            <div>$${d[c].usd}</div>
+            <div class="change">${ch.toFixed(2)}%</div>
+          </div>`;
       });
     }
 
-    const coins = ['bitcoin', 'ethereum', 'solana'];
-    const apiURL = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`;
-
-    async function fetchPrices() {
-      try {
-        const response = await fetch(apiURL);
-        const data = await response.json();
-        const container = document.getElementById('priceBubbles');
-        container.innerHTML = '';
-
-        coins.forEach(coin => {
-          const price = data[coin]?.usd ?? 'N/A';
-          const change = data[coin]?.usd_24h_change ?? 0;
-          const changeClass = change >= 0 ? 'price-up' : 'price-down';
-          const changeFormatted = change ? (change >= 0 ? '+' : '') + change.toFixed(2) + '%' : 'N/A';
-
-          const bubble = document.createElement('div');
-          bubble.className = `bubble ${changeClass}`;
-          bubble.title = `${coin.toUpperCase()} price and 24h change`;
-
-          bubble.innerHTML = `
-            <div class="coin-name">${coin.toUpperCase()}</div>
-            <div class="price-usd">$${typeof price === 'number' ? price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 6}) : price}</div>
-            <div class="change">${changeFormatted}</div>
-          `;
-
-          container.appendChild(bubble);
-        });
-      } catch (error) {
-        console.error('Failed to fetch prices:', error);
-      }
-    }
-
-    // تحديث الأسعار كل 60 ثانية
-    fetchPrices();
-    setInterval(fetchPrices, 60000);
+    prices();
+    setInterval(prices, 60000);
   </script>
+
 </body>
 </html>
