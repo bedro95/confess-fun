@@ -5,63 +5,211 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Confess.fun - Wallet Fun Results</title>
   <style>
-    /* ... (باقي تنسيقات موقعك كما هي) ... */
-    
-    /* إضافة تنسيقات أداة متابعة الأسعار بالإنجليزي وجماليات جديدة */
-    #priceTracker {
-      margin-top: 40px;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-      padding: 25px 20px;
-      border-radius: 16px;
-      box-shadow:
-        0 8px 30px rgba(255, 215, 0, 0.4),
-        inset 0 0 30px rgba(255, 215, 0, 0.2);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: #000000;
       color: #FFD700;
+      direction: rtl;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 20px;
+    }
+    .container {
+      background: #121212;
+      padding: 40px 35px;
+      border-radius: 18px;
+      box-shadow:
+        0 10px 30px rgba(255, 215, 0, 0.25),
+        inset 0 0 40px rgba(255, 215, 0, 0.15);
+      max-width: 460px;
+      width: 100%;
       user-select: none;
     }
-    #priceTracker h2 {
-      margin: 0 0 22px 0;
-      font-size: 2rem;
-      font-weight: 900;
+    h1 {
+      margin-bottom: 40px;
+      font-weight: 800;
+      font-size: 2.6rem;
+      letter-spacing: 3px;
       color: #FFD700;
-      text-shadow: 0 0 10px #FFD700;
-      letter-spacing: 2px;
       text-transform: uppercase;
+      text-shadow: 0 0 8px #FFD700, 0 0 15px #FFD700;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 16px 20px;
+      border: none;
+      border-radius: 12px;
+      background-color: #222;
+      color: #FFD700;
+      font-size: 18px;
+      letter-spacing: 1.2px;
+      font-weight: 600;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      outline: none;
+      box-shadow: inset 0 0 10px #FFD700;
+    }
+    input[type="text"]::placeholder {
+      color: #BFAF2E;
+      font-style: italic;
+      opacity: 0.8;
+    }
+    input[type="text"]:focus {
+      background-color: #333;
+      box-shadow: 0 0 12px #FFD700, inset 0 0 14px #FFD700;
+      color: #FFF;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 16px 0;
+      background: linear-gradient(90deg, #FFD700 0%, #FFC107 100%);
+      border: none;
+      border-radius: 14px;
+      font-size: 20px;
+      font-weight: 900;
+      color: #000;
+      cursor: pointer;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      box-shadow: 0 6px 12px rgba(255, 215, 0, 0.6);
+      transition: background 0.35s ease, box-shadow 0.35s ease;
+      user-select: none;
+      opacity: 0.5;
+    }
+    button:hover:enabled {
+      background: linear-gradient(90deg, #FFC107 0%, #FFEB3B 100%);
+      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.9);
+    }
+    button:disabled {
+      cursor: not-allowed;
+    }
+    #result {
+      margin-top: 35px;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: #FFD700;
+      letter-spacing: 1.1px;
+      user-select: text;
+      white-space: pre-wrap;
+      text-shadow: 0 0 8px #FFD700;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      border-radius: 12px;
+      background: rgba(255, 215, 0, 0.1);
+      flex-direction: column;
+    }
+    #copyBtn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      background: #FFD700;
+      color: #000;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+    #copyBtn:hover {
+      background: #FFC107;
+    }
+    #twitterBtn {
+      margin-top: 12px;
+      padding: 10px 0;
+      width: 100%;
+      background: #000000;
+      border-radius: 14px;
+      font-weight: 900;
+      font-size: 24px;
+      color: #FFD700;
+      cursor: pointer;
+      user-select: none;
+      box-shadow:
+        0 6px 12px rgba(255, 215, 0, 0.8);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      border: 2px solid #FFD700;
+    }
+    #twitterBtn:hover {
+      background: #222;
+      box-shadow: 0 10px 25px rgba(255, 215, 0, 1);
+    }
+    #twitterBtn span {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    footer {
+      margin-top: 30px;
+      color: #BFAF2E;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      user-select: none;
       text-align: center;
+      text-shadow: 0 0 3px #BFAF2E;
+    }
+    footer span {
+      display: block;
+      margin: 4px 0;
+    }
+
+    /* تصميم جدول أداة متابعة الأسعار */
+    #priceTracker {
+      margin-top: 40px;
+      background: #222;
+      padding: 20px 15px;
+      border-radius: 14px;
+      box-shadow:
+        0 6px 20px rgba(255, 215, 0, 0.3),
+        inset 0 0 20px rgba(255, 215, 0, 0.15);
+    }
+    #priceTracker h2 {
+      margin: 0 0 20px 0;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #FFD700;
+      text-shadow: 0 0 8px #FFD700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     #priceTracker table {
       width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 10px;
+      border-collapse: collapse;
+      color: #FFD700;
       font-weight: 700;
-      font-size: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     #priceTracker th, #priceTracker td {
-      padding: 14px 12px;
+      padding: 12px 10px;
+      border-bottom: 1px solid #444;
       text-align: center;
     }
     #priceTracker th {
-      background: #111;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      color: #FFD700;
-      font-size: 1.1rem;
-      letter-spacing: 1.2px;
-    }
-    #priceTracker tbody tr {
-      background: #222;
-      border-radius: 12px;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 2px 10px rgba(255, 215, 0, 0.15);
-    }
-    #priceTracker tbody tr:hover {
-      background: #333;
-    }
-    #priceTracker td:first-child {
-      font-weight: 900;
-      letter-spacing: 1.1px;
-      text-transform: capitalize;
+      background: #121212;
+      font-size: 1rem;
+      letter-spacing: 1.3px;
     }
     .price-up {
       color: #4caf50;
@@ -93,7 +241,7 @@
 
     <!-- أداة متابعة الأسعار -->
     <div id="priceTracker">
-      <h2>Crypto Price Tracker</h2>
+      <h2>Prices hotter than your last pump!</h2>
       <table>
         <thead>
           <tr>
@@ -115,7 +263,6 @@
   </footer>
 
   <script>
-    // باقي سكريبت موقعك
     const funnyPhrases = [
       "Oops! Your wallet lost more coins than your favorite game’s high score!",
       "Your biggest loss? Somewhere between ‘Oops’ and ‘Why did I do that?’",
@@ -193,7 +340,7 @@
           tbody.insertAdjacentHTML('beforeend', row);
         });
       } catch (error) {
-        console.error('Error fetching prices:', error);
+        console.error('خطأ في جلب البيانات:', error);
       }
     }
 
